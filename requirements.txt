@@ -12,3 +12,5 @@ soupsieve==2.5
 sqlparse==0.4.4
 typing_extensions==4.8.0
 tzdata==2023.3
+phonenumbers==8.13.20
+django-phonenumber-field==7.1.0

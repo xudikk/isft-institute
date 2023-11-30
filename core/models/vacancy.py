@@ -4,12 +4,15 @@
 #
 #  Tashkent, Uzbekistan
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
+from django.utils.translation import gettext_lazy as _
 
 
 class Candidate(models.Model):
     FIO = models.CharField("Ism Familiya Sharif", max_length=256)
     pasport_seria = models.CharField("Pasport Seriasi", max_length=2)
-    pasport_number = models.CharField("Seria Raqami", max_length=2)
+    pasport_number = models.CharField("Seria Raqami", max_length=10)
+    phone = PhoneNumberField(verbose_name=_("Telefon raqami"), null=True, blank=True)
 
     def __str__(self):
         return self.FIO
