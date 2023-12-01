@@ -3,3 +3,6 @@
 #  Please contact before making any changes
 #
 #  Tashkent, Uzbekistan
+
+from .auth import User
+from .vacancy import Candidate, Test

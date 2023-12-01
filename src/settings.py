@@ -13,9 +13,9 @@ APP_NAME = "Fintech Coin"
 
 load_dotenv()
 
-SECRET_KEY = os.getenv('SECRET_KEY', 1)
+SECRET_KEY = os.getenv('SECRET_KEY', 'default_secret_key')
 DEBUG = bool(os.getenv('DEBUG') == 'True')
-ALLOWED_HOSTS = ['*'] if DEBUG else os.getenv('ALLOWED_HOSTS').split(',')
+ALLOWED_HOSTS = ['*'] if DEBUG else os.getenv('ALLOWED_HOSTS', '').split(',')
 
 METHODS = os.getenv('AUTH_METHODS', '').split(',')
 

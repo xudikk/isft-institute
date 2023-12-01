@@ -3,6 +3,9 @@
 #  Please contact before making any changes
 #
 #  Tashkent, Uzbekistan
+
 from django.shortcuts import render
 
-# Create your views here.
+
+def home(request):
+    return render(request, 'index.html', {})
