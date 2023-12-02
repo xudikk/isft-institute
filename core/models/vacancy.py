@@ -31,4 +31,6 @@ class Test(models.Model):
         return self.quest
 
 
-
+class ResultTest(models.Model):
+    candidate = models.ForeignKey(Candidate, on_delete=models.SET_NULL, null=True, blank=True)
+    test = models.ForeignKey(Test, on_delete=models.SET_NULL, null=True, blank=True)

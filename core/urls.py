@@ -1,8 +1,18 @@
+#  Created by Xudoyberdi Egamberdiyev
+#
+#  Please contact before making any changes
+#
+#  Tashkent, Uzbekistan
+
 from django.urls import path
-from core.dashboard.auth import login
-from core.views import home
+from core.dashboard.vacancy import vacancy
+
 
 urlpatterns = [
-    path('', home, name='home'),
-    path('login/', login, name='login')
+
+    # vacancy
+    path('vacancy/', vacancy, name='vacancy')
+
+
+
 ]
