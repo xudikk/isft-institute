@@ -33,8 +33,9 @@ nav li{
     background-image:linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("isft.jpg");
     background-position: center;
     background-size: cover;
-    height: 100vh;
+    width: 100vh;
     text-align: center;
+    background-repeat: no-repeat;
 }
 
 #form-box{

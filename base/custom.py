@@ -15,6 +15,19 @@ from rest_framework.response import Response
 from base.helper import lang_helper
 
 
+def answered_dictfetchall(cursor):
+    rows = cursor.fetchall()
+    formatted_data = []
+    for row in rows:
+        formatted_data.append({
+            'id': row[0],
+            'question': row[1],
+            'choices': [row[3], row[4], row[5], row[6]],
+            'answer': row[2]
+        })
+    return formatted_data
+
+
 def method_params_checker(funk):
     def wrapper(self, req, *args, **kwargs):
         params = req.data.get('params')
@@ -129,4 +142,3 @@ class CustomMETHODISM(METHODISM):
                 custom_response(False, method=method, message=MESSAGE['UndefinedError'][lang_helper(requests)],
                                 data=exception_data(e)))
         return response
-
