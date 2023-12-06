@@ -42,6 +42,5 @@ class ResultTest(models.Model):
     start = models.DateTimeField(auto_now_add=True)
     end = models.DateTimeField(null=True, blank=True)
 
-
     def __str__(self):
         return self.candidate.FIO
