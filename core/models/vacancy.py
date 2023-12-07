@@ -48,6 +48,7 @@ class Test(models.Model):
         return self.quest
 
 
+
 class ResultTest(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(max_length=56, default='Boshlandi', choices=[("Boshlandi", "Boshlandi"), ("Tugadi", "Tugadi"), ("Tugallanmay qoldi", "Tugallanmay qoldi")])
@@ -71,7 +72,7 @@ class ResultTest(models.Model):
 
         return super(ResultTest, self).save(*args, **kwargs)
 
-    def result_test(self):
+    def result_tests(self):
         return eval(self.test_ids) if self.test_ids else []
 
 

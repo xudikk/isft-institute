@@ -1,0 +1,240 @@
+{% extends "work/base.html" %}
+{% load static %}
+{% load bootstrap4 %}
+
+
+
+{% block content %}
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                    <div class="header-title">
+                        <h4 class="card-title">Testlar royhati</h4>
+                    </div>
+                    <div class="header-action">
+                        <span class="float-right ">
+                            <a class="btn btn-sm bg-success" href="{% url "add_test" status='form' %}">
+                            <i class="ri-add-fill"><span class="pl-1">Yangi quiz qo'shish</span></i>
+                            </a>
+                        </span>
+                    </div>
+                    </div>
+                    <div class="card-body">
+                    <div id="table" class="table-editable">
+                        <span class="float-right mb-3 mr-2">
+                        </span>
+                        <table class="table table-bordered table-responsive-md table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <th>N</th>
+                                    <th>Savol matni</th>
+                                    <th>Javoblar soni</th>
+                                    <th>Tog'ri javob</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for x in roots %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ x.quest }}</td>
+                                    <td>4</td>
+                                    <td>{% if x.true == 1 %}
+                                        A
+                                        {% elif x.true == 2 %}
+                                        B
+                                        {% elif x.true == 3 %}
+                                        C
+                                        {% elif x.true == 4 %}
+                                        D
+                                        {% endif %}</td>
+                                    <td>
+                                        <span class=""><a href="{% url "view_test" pk=x.id %}"
+                                            class="btn bg-primary btn-rounded btn-sm my-0"
+                                            title="{{x.quest}} haqida batafsil malumot" >Batafsil</a></span>
+                                        <span class=""><a href="{% url "edit_test" status='form' pk=x.id %}"
+                                                class="btn bg-success btn-rounded btn-sm my-0"
+                                                title="{{x.quest}} ni malumotlarini o'zgartirish" >Edit</a></span>
+
+                                                <span class=""><a data-toggle="modal" data-target=".bd-example-modal-sm-{{ x.id }}"
+                                                        class="btn bg-danger btn-rounded btn-sm my-0"
+                                                        title="{{x.quest}} ni o'chirish" >Delete</a></span>
+                                                
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+{% if big %}
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                    <div class="header-title">
+                        <h4 class="card-title">{{ root.quest }} ning ma'lumotlari</h4>
+                    </div>
+                        <div class="header-action">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    <div id="table" class="table-editable">
+                        <span class="float-right mb-3 mr-2">
+                        <a class="btn btn-sm bg-secondary" 
+                        href="{% url "tests" %}">
+                            <i class="ri-add-fill"><span class="pl-1">Ortga qaytish</span></i>
+                        </a>
+                        </span>
+                        <table class="table table-bordered table-responsive-md table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <th>N</th>
+                                    <th>Test matni</th>
+                                    <th>A javob</th>
+                                    <th>B javob</th>
+                                    <th>C javob</th>
+                                    <th>D javob</th>
+                                    <th>Tog'ri javob</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>***</td>
+                                    <td>{{ root.quest }}</td>
+                                    <td>{{ root.a }}</td>
+                                    <td>{{ root.b }}</td>
+                                    <td>{{ root.c }}</td>
+                                    <td>{{ root.d }}</td>
+                                    <td>{% if root.true == 1 %}
+                                        {{ root.a }}
+                                        {% elif root.true == 2 %}
+                                        {{ root.b }}
+                                        {% elif root.true == 3 %}
+                                        {{ root.c }}
+                                        {% elif root.true == 4 %}
+                                        {{ root.d }}
+                                        {% endif %}</td>
+                                    <td>
+                                            <span class=""><a href="{% url "edit_test" status='form' pk=root.id %}"
+                                                    class="btn bg-success btn-rounded btn-sm my-0"
+                                                    title="{{x.quest}} ni malumotlarini o'zgartirish" >Edit</a></span>
+
+                                            <span class=""><a data-toggle="modal" data-target=".bd-example-modal-sm"
+                                                    class="btn bg-danger btn-rounded btn-sm my-0"
+                                                    title="{{x.quest}} ni o'chirish" >Delete</a></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+            </div>
+{% endif %}
+
+{% if status == 'form' %}
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Yangi Quiz</h4>
+                </div>
+                </div>
+                <div class="card-body">
+                <form method="post" class="form-horizontal">
+                    {% csrf_token %}
+                    <div class="form-group row col-sm-12">
+                        <label class="control-label col-sm-3 align-self-center" for="savol">Savolni kiriting:</label>
+                        <div class="col-sm-9">
+                           <input type="text" class="form-control" id="savol" name="quest"
+                           {% if root %}
+                           value="{{ root.quest }}"
+                           {% else %}
+                           placeholder="Savolni kiriting ..."
+                           {% endif %}>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            {% bootstrap_field form.a %}
+                        </div>
+                        <div class="col">
+                            {% bootstrap_field form.b %}
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        <div class="col">
+                            {% bootstrap_field form.c %}
+                        </div>
+                        <div class="col">
+                            {% bootstrap_field form.d %}
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        {% bootstrap_field form.true %}
+                     </div> 
+
+                    <div class="form-group mb-0">
+                        <button type='submit' class="btn btn-primary mr-2">Saqlash</button>
+                        <a href="{% url "tests" %}" class="btn bg-danger">Bekor qilish</a>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+
+
+{% if big %}
+    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+           <div class="modal-content">
+              <div class="modal-header">
+                 <h5 class="modal-title">O'chirish ...</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+              <div class="modal-body">
+                 <p>Rostdan ham {{root.quest}} ni o'chirmoqchimisiz ?</p>
+              </div>
+              <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Bekor qilish</button>
+                 <a href="{% url "del_test" status='del' pk=root.id %}" class="btn btn-primary">O'chirish</a>
+              </div>
+           </div>
+        </div>
+     </div>
+{% else %}
+{% for x in roots %}
+    <div class="modal fade bd-example-modal-sm-{{ x.id }}" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">O'chirish ...</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Rostdan ham {{x.quest}} ni o'chirmoqchimisiz ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Bekor qilish</button>
+                    <a href="{% url "del_test" status='del' pk=x.id %}" class="btn btn-primary">O'chirish</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+
+
+
+{% endblock content %}

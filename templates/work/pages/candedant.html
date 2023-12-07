@@ -1,0 +1,123 @@
+{% extends "work/base.html" %}
+{% load static %}
+
+
+
+{% block content %}
+            {% if size == 'big' %}
+                <div class="col-sm-12">
+            {% elif size == 'small' %}
+                <div class="col-sm-8">
+            {% endif %}
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                    <div class="header-title">
+                        <h4 class="card-title">Kandedantlar royhati</h4>
+                    </div>
+                        <div class="header-action">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    <div id="table" class="table-editable">
+                        <span class="float-right mb-3 mr-2">
+                        </span>
+                        <table class="table table-bordered table-responsive-md table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <th>N</th>
+                                    <th>Ism - Familya</th>
+                                    <th>Pasport seria</th>
+                                    <th>Telefon raqam</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for x in roots %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>
+                                        {% if x.FIO %}
+                                            {{ x.FIO }}
+                                        {% else %}
+                                            <h6>FIO yo'q !</h6>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if x.pasport_seria and x.pasport_number %}
+                                            {{ x.pasport_seria }}  {{ x.pasport_number }}
+                                        {% else %}
+                                            <h6>Passport seria yo'q !</h6>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if x.phone %}
+                                           {{ x.phone }}
+                                        {% else %}
+                                            <h6>Telefon raqam yo'q !</h6>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class=""><a href="{% url "view_condedant" pk=x.id %}"
+                                            class="btn bg-primary btn-rounded btn-sm my-0"
+                                            title="{{x.FIO}} haqida batafsil malumot" >Batafsil</a></span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+{% if size == 'small' %}
+               <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                    <div class="header-title">
+                        <h4 class="card-title">{{ root.candidate.FIO }} ning ma'lumotlari</h4>
+                    </div>
+                        <div class="header-action">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    <div id="table" class="table-editable">
+                        <span class="float-right mb-3 mr-2">
+                        <a class="btn btn-sm bg-primary" 
+                        href="{% url "condedant" %}">
+                            <i class="ri-add-fill"><span class="pl-1">Ortga qaytish</span></i>
+                        </a>
+                        </span>
+                        <table class="table table-bordered table-responsive-md table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <th>Ism - Familya</th>
+                                    <th>Testlar soni</th>
+                                    <th>Tog'ri javoblar soni</th>
+                                    <th>Xato javoblar soni</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        {{ root.candidate.FIO }}
+                                    </td>
+                                    <td>
+                                        {{ len }}
+                                    </td>
+                                    <td>
+                                        {{ root.corrects_cnt }}
+                                    </td>
+                                    <td>
+                                        {{ root.incorrects_cnt }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+               </div>
+{% endif %}
+
+{% endblock content %}
