@@ -6,12 +6,14 @@
     <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title>Datum | CRM Admin Dashboard Template</title>
-      
+
       <!-- Favicon -->
       <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}" />
-      
+
       <link rel="stylesheet" href="{% static 'assets/css/backend-plugin.min.css' %}">
-      <link rel="stylesheet" href="{% static 'assets/css/backend.css' %}?v=1.0.0">  </head>
+      <link rel="stylesheet" href="{% static 'assets/css/backend.css' %}">
+      <link rel="stylesheet" href="{% static 'fontawesome_icons/css/all.min.css' %}">
+  </head>
   <body class="  ">
     <!-- loader Start -->
     <div id="loading">
@@ -26,7 +28,7 @@
                <a href="../backend/index.html" class="header-logo">
                   <img src="{% static 'assets/images/logo.png' %}" class="img-fluid rounded-normal light-logo" alt="logo">
                   <img src="{% static 'assets/images/logo-dark.png' %}" class="img-fluid rounded-normal d-none sidebar-light-img" alt="logo">
-                  <span>Datum</span>            
+                  <span>Datum</span>
               </a>
               <div class="side-menu-bt-sidebar-1">
                       <svg xmlns="http://www.w3.org/2000/svg" class="text-light wrapper-menu" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -74,7 +76,7 @@
                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                               </svg>
                           </a>
-                          <ul id="app1" class="submenu collapse" data-parent="#iq-sidebar-toggle">                        
+                          <ul id="app1" class="submenu collapse" data-parent="#iq-sidebar-toggle">
                               <li class=" sidebar-layout">
                                   <a href="{% url "condedant" %}" class="svg-icon">
                                       <i class=""><svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -115,7 +117,7 @@
                       </button>
                       <div class="collapse navbar-collapse" id="navbarSupportedContent">
                           <ul class="navbar-nav ml-auto navbar-list align-items-center">
-                              <li class="nav-item nav-icon dropdown"> 
+                              <li class="nav-item nav-icon dropdown">
                                   <a href="#" class="search-toggle dropdown-toggle" id="notification-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="h-6 w-6 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
@@ -129,7 +131,7 @@
                                                   Notifications
                                               </h6>
                                           </div>
-                                          <div class="card-body overflow-auto card-header-border p-0 card-body-list" style="max-height: 500px;">                                        
+                                          <div class="card-body overflow-auto card-header-border p-0 card-body-list" style="max-height: 500px;">
                                               <ul class="dropdown-menu-1 overflow-auto list-style-1 mb-0">
                                                   <li class="dropdown-item-1 float-none p-3">
                                                       <div class="list-item d-flex justify-content-start align-items-start">
@@ -153,7 +155,7 @@
                                                                   3 hours ago</small>
                                                               </p>
                                                           </div>
-                                                      </div>                                                
+                                                      </div>
                                                   </li>
                                                    <li class="dropdown-item-1 float-none p-3">
                                                        <div class="list-item d-flex justify-content-start align-items-start">
@@ -175,7 +177,7 @@
                                                                       5 hours ago</small>
                                                               </p>
                                                           </div>
-                                                       </div>                                                
+                                                       </div>
                                                   </li>
                                                    <li class="dropdown-item-1 float-none p-3">
                                                        <div class="list-item d-flex justify-content-start align-items-start">
@@ -244,7 +246,7 @@
                                                                       5 hours ago</small>
                                                               </p>
                                                           </div>
-                                                       </div>                                                
+                                                       </div>
                                                   </li>
                                               </ul>
                                           </div>
@@ -253,7 +255,7 @@
                                           </div>
                                       </div>
                                   </div>
-                              </li>                        
+                              </li>
                               <li class="nav-item nav-icon dropdown">
                                   <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                   <img src="{% static 'assets/images/Flag/flag001.png' %}" class="img-fluid rounded-circle" alt="user" style="height: 30px; min-width: 30px; width: 30px;">
@@ -287,7 +289,7 @@
                                               <svg xmlns="http://www.w3.org/2000/svg" class="" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                               </svg>
-                                          </a> 
+                                          </a>
                                           </div>
                                       </form>
                                   </div>
@@ -331,8 +333,8 @@
                                       </li>
                                   </ul>
                               </li>
-                          </ul>                     
-                      </div> 
+                          </ul>
+                      </div>
                   </div>
               </nav>
           </div>
@@ -343,10 +345,10 @@
 
 
    {% block content %}
-   
-   
-   
-   
+
+
+
+
    {% endblock content %}
             </div>
 
@@ -378,34 +380,34 @@
     <script src="{% static 'assets/js/backend-bundle.min.js' %}"></script>
     <!-- Chart Custom JavaScript -->
     <script src="{% static 'assets/js/customizer.js' %}"></script>
-    
+
     <script src="{% static 'assets/js/sidebar.js' %}"></script>
-    
+
     <!-- Flextree Javascript-->
     <script src="{% static 'assets/js/flex-tree.min.js' %}"></script>
     <script src="{% static 'assets/js/tree.js' %}"></script>
-    
+
     <!-- Table Treeview JavaScript -->
     <script src="{% static 'assets/js/table-treeview.js' %}"></script>
-    
+
     <!-- SweetAlert JavaScript -->
     <script src="{% static 'assets/js/sweetalert.js' %}"></script>
-    
+
     <!-- Vectoe Map JavaScript -->
     <script src="{% static 'assets/js/vector-map-custom.js' %}"></script>
-    
+
     <!-- Chart Custom JavaScript -->
     <script src="{% static 'assets/js/chart-custom.js' %}"></script>
     <script src="{% static 'assets/js/charts/01.js' %}"></script>
     <script src="{% static 'assets/js/charts/02.js' %}"></script>
-    
+
     <!-- slider JavaScript -->
     <script src="{% static 'assets/js/slider.js' %}"></script>
-    
+
     <!-- Emoji picker -->
     <script src="{% static 'assets/vendor/emoji-picker-element/index.js' %}" type="module"></script>
-    
-    
+
+
     <!-- app JavaScript -->
     <script src="{% static 'assets/js/app.js' %}"></script>  </body>
 </html>

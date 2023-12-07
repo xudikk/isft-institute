@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from core.forms import QuizForm
 from core.models import Candidate, ResultTest
@@ -6,8 +7,14 @@ from django.db.models import Q
 
 
 def candedant(request, pk=None, ):
+    pagination = Candidate.objects.all().order_by('-pk')
+    paginator = Paginator(pagination, 30)
+    page_number = request.GET.get("page", 1)
+    paginated = paginator.get_page(page_number)
+
     ctx = {
-        'roots': Candidate.objects.all().order_by('-id'),
+        "roots": paginated,
+        "pos": "list",
         'size': 'big'
     }
     if pk:
@@ -28,8 +35,15 @@ def candedant(request, pk=None, ):
 
 
 def test(request, pk=None, status=None):
+    pagination = Test.objects.all().order_by('-pk')
+    paginator = Paginator(pagination, 30)
+    page_number = request.GET.get("page", 1)
+    paginated = paginator.get_page(page_number)
+
     ctx = {
         'roots': Test.objects.all().order_by('-id')
+        "roots": paginated,
+        "pos": "list"
     }
     if pk and not status:
         ctx['root'] = Test.objects.filter(pk=pk).first()

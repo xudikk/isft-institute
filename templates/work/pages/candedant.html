@@ -21,7 +21,7 @@
                     <div id="table" class="table-editable">
                         <span class="float-right mb-3 mr-2">
                         </span>
-                        <table class="table table-bordered table-responsive-md table-striped text-center">
+                        <table class="table table-bordered table-responsive-md table-striped">
                             <thead>
                                 <tr>
                                     <th>N</th>
@@ -59,14 +59,34 @@
                                     <td>
                                         <span class=""><a href="{% url "view_condedant" pk=x.id %}"
                                             class="btn bg-primary btn-rounded btn-sm my-0"
-                                            title="{{x.FIO}} haqida batafsil malumot" >Batafsil</a></span>
+                                            title="{{x.FIO}} haqida batafsil malumot" ><i class="fa-solid fa-list"></i></a></span>
                                     </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
+                        <div class="pagination mb-3">
+                        <span class="step-links">
+                            {% if roots.has_previous %}
+                                <a href="?page=1" class="btn btn-primary btn-sm">&laquo;first</a>
+                                <a href="?page={{ roots.previous_page_number }}" class="btn btn-primary btn-sm">prev</a>
+                            {% endif %}
+
+                            <span class="current">
+                                Page {{ roots.number }} of {{ roots.paginator.num_pages }}.
+                            </span>
+
+                            {% if roots.has_next %}
+                                <a href="?page={{ roots.next_page_number }}" class="btn btn-primary btn-sm">next</a>
+                                <a href="?page={{ roots.paginator.num_pages }}"
+                                   class="btn btn-primary btn-sm">last&raquo;</a>
+                            {% endif %}
+                        </span>
+                        </div>
+                        <a href="{% url 'home' %}" class="btn btn-primary"><i class="fa-solid fa-house"></i> Bosh Menu</a>
                     </div>
+
                 </div>
             </div>
 
