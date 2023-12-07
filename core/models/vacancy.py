@@ -25,7 +25,24 @@ class Test(models.Model):
     c = models.CharField("C variant", max_length=1024)
     d = models.CharField("D variant", max_length=1024)
 
-    true = models.SmallIntegerField("Tog'ri Javob", max_length=1, choices=[(1, "A"), (2, "B"), (3, "C"), (4, "D")])
+    true = models.SmallIntegerField("Tog'ri Javob",choices=[(1, "A"), (2, "B"), (3, "C"), (4, "D")])
+
+    def get_true(self):
+        return {
+            1: "A",
+            2: "B",
+            3: "C",
+            4: "D",
+        }.get(self.true)
+
+    def get_quest(self):
+        return {
+            1: self.a,
+            2: self.b,
+            3: self.c,
+            4: self.d,
+        }.get(self.true)
+
 
     def __str__(self):
         return self.quest
@@ -41,6 +58,22 @@ class ResultTest(models.Model):
     incorrects = models.CharField(max_length=125, default='[]')
     start = models.DateTimeField(auto_now_add=True)
     end = models.DateTimeField(null=True, blank=True)
+    percentage = models.SmallIntegerField(default=0, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.corrects_cnt > 0:
+            self.percentage = int((self.corrects_cnt/len(eval(self.test_ids)) ) * 100)
+        try:
+            self.corrects_cnt = len(eval(self.corrects))
+            self.incorrects_cnt = len(eval(self.incorrects))
+        except:
+            pass
+
+        return super(ResultTest, self).save(*args, **kwargs)
+
+    def result_test(self):
+        return eval(self.test_ids) if self.test_ids else []
+
 
     def __str__(self):
-        return self.candidate.FIO
+        return f'{self.candidate.FIO} || Tog`ri Javoblar: {self.corrects_cnt}'

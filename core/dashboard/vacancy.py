@@ -3,6 +3,9 @@
 #  Please contact before making any changes
 #
 #  Tashkent, Uzbekistan
+import binascii
+import datetime
+import os
 from contextlib import closing
 
 from django.db import connection
@@ -29,9 +32,42 @@ def vacancy(request):
         test = ResultTest.objects.create(candidate=condidate, status='Boshlandi',
                                          test_ids=str(repr([x['id'] for x in result])),)
         request.session['test_id'] = test.id
-        return HttpResponse(str(repr({"Natija": 'Oxshadi'})))
+        return HttpResponse("success")
 
     ctx = {
-        "quests": result
+        "quests": result,
     }
     return render(request, 'pages/quiz.html', ctx)
+
+
+def check_test(request):
+    data = request.GET
+    result = ResultTest.objects.filter(id=request.session.get('test_id', 0)).first()
+    if result:
+        corrects = eval(result.corrects)
+        incorrects = eval(result.incorrects)
+        if int(data.get('result', 0)):
+            corrects.append(int(data.get('test_id')))
+        else:
+            incorrects.append(int(data.get('test_id')))
+
+        result.corrects = str(corrects)
+        result.incorrects = str(incorrects)
+        result.save()
+        print(corrects, incorrects)
+    return HttpResponse("Continue")
+
+
+def final_result(request):
+    data = request.GET
+    result = ResultTest.objects.filter(id=request.session.get('test_id', 0)).first()
+    print(data)
+    if result:
+        result.corrects_cnt = int(data.get('correct', 0))
+        result.incorrects_cnt = int(data.get('inc', 0))
+        result.end = datetime.datetime.now()
+        result.save()
+    return HttpResponse("Continue")
+
+
+

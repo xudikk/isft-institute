@@ -12,7 +12,7 @@
 
 <body>
     <section class="vh-100 bg-image"
-          style="background-image: url('{% static 'quiz/isft.jpg' %}');">
+         style="background-image: url('{% static 'quiz/isft.jpg' %}'); background-repeat: no-repeat; width:100%; background-size:cover; background-position:center;">
           <div class="mask d-flex align-items-center h-100 gradient-custom-3">
             <div class="container h-100">
               <div class="row d-flex justify-content-center align-items-center h-100">
@@ -36,7 +36,7 @@
                         <div class="form-outline mb-2">
                             <label class="form-label" for="form3Example4cg">Seria Raqamingiz</label>
                             <input type="text" id="form3Example4cg"  name="seria_num" class="form-control form-control-lg col-md-8" placeholder="1234567"
-                                   pattern="[0,9]" maxlength="10"/>
+                                   maxlength="10"/>
                         </div>
 
                         <div class="form-outline mb-4">
@@ -85,18 +85,36 @@
             </div>
         
         </div>
-        
-        <div class="final-result">
-            <h1>Test Nihoyasiga yetdi</h1>
-            <div class="solved-ques-no">Siz Umumiy hisobda 20ta savolga javob berdingiz</div>
-            <div class="right-wrong">Shulardan x tasi tog'ri x tasi xato</div>
-            <div id="display-final-score">Sizning Umumiy Natijangiz: 35</div>
-            <div class="remark">Natija: </div>
-        </div>
-        
+
+            <div class="final-result"  style="position: relative; background-image: url('{% static 'quiz/isft2.jpg' %}'); background-repeat: no-repeat; width:100%; background-size:cover; background-position:center;">
+
+                <div class="card card-default m-auto" style="width:600px;">
+                  <div class="card-header">
+                    <h3 class="card-title">
+                      <i class="fas fa-exclamation-triangle"></i>
+                      Natijalar
+                    </h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <div class="alert alert-success alert-dismissible">
+
+                      <h5><i class="icon fas fa-check"></i> Test Nihoyasiga yetdi!</h5>
+                        <div class="solved-ques-no">Siz Umumiy hisobda 20ta savolga javob berdingiz</div>
+                        <div class="right-wrong">Shulardan x tasi tog'ri x tasi xato</div>
+                        <div id="display-final-score">Sizning Umumiy Natijangiz: 35</div>
+                        <div class="remark">Natija: </div>
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+
+
+            </div>
+
+
         <script src="{% static 'quiz/ajax-jquery.js' %}"></script>
         <script>
-
             var countQues=0;
             var lang;
             var score=0;
@@ -104,8 +122,9 @@
             var questions=[
                 {% for i in quests %}
                 {
+                    id: {{ i.id }},
                     question: '{{ i.question }}',
-                    choices: [{% for j in i.choices %}'{{ j }}',{% endfor %} ],
+                    choices: [{% for j in i.choices %}'{{ j }}',{% endfor %}],
                     answer: {{ i.answer }}
                 },
                 {% endfor %}
@@ -121,6 +140,20 @@
 
 
             document.querySelector(".choose-lang").addEventListener("click",function(){
+
+
+                let form = document.getElementById('vacancy_regis_form');
+                let formData = new FormData(form);
+
+                fetch('/vacancy/', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => console.log(data))
+                .catch((error) => console.error('Error:', error));
+
+
                 lang="questions";
                 document.getElementById("ques-left").textContent="Question : "+(countQues+1)+"/"+window[lang].length;
 
@@ -142,18 +175,38 @@
 
 
 
-
             document.querySelector(".submit-answer").addEventListener("click",function(){
-            //     alert(window[lang][countQues].choices[window[lang][countQues].answer-1]);
-            //     alert(document.querySelector('input[name="options"]:checked').value);
 
                 if(document.querySelector('input[name="options"]:checked').value===window[lang][countQues].choices[window[lang][countQues].answer-1]){
+
+
+                    var check_url = new URL('/test/check/?test_id='+window[lang][countQues].id+'&result=1', window.location.origin);
+
+                    fetch(check_url, {
+                        method: 'GET'
+                    })
+                    .then(response => response.text())
+                    .then(data => console.log(data))
+                    .catch((error) => console.error('Error:', error));
+
+
 
                     score+=5;
                     document.getElementById("score").textContent="Score : "+score;
                     document.getElementById("ques-view").innerHTML+="<div class='ques-circle correct'>"+(countQues+1)+"</div>";
 
                 }else{
+
+                    var check_url2 = new URL('/test/check/?test_id='+window[lang][countQues].id+'&result=0', window.location.origin);
+
+                    fetch(check_url2, {
+                        method: 'GET'
+                    })
+                    .then(response => response.text())
+                    .then(data => console.log(data))
+                    .catch((error) => console.error('Error:', error));
+
+
 
                     document.getElementById("score").textContent="Score : "+score;
                     document.getElementById("ques-view").innerHTML+="<div class='ques-circle incorrect'>"+(countQues+1)+"</div>";
@@ -180,20 +233,33 @@
             document.querySelector(".view-results").addEventListener("click",function(){
                 document.querySelector(".final-result").style.display="block";
 
-                document.querySelector(".solved-ques-no").innerHTML="You Solved "+(countQues+1)+" questions of ";
+                document.querySelector(".solved-ques-no").innerHTML="Testlar Soni <mark>"+(countQues+1)+" </mark>";
 
                 var correct= document.getElementById("ques-view").getElementsByClassName("correct").length;
 
-                document.querySelector(".right-wrong").innerHTML=correct+" were Right and "+((countQues+1)-correct)+" were Wrong";
+                document.querySelector(".right-wrong").innerHTML="Tog'ri: <mark>"+ correct+"</mark> va Xato: <mark>"+((countQues+1)-correct)+"</mark>";
 
-                document.getElementById("display-final-score").innerHTML="Your Final Score is: "+score;
+                document.getElementById("display-final-score").innerHTML="Sizning Umumiy Natijangiz: "+score;
 
                 if (correct/(countQues+1)>0.7){
-                    document.querySelector(".remark").innerHTML="Natija: Natija 70%dan baland bo'ldi! :)";
+                    document.querySelector(".remark").innerHTML="Natija: Natija 70% dan baland bo'ldi! :)";
                 }else{
                     document.querySelector(".remark").innerHTML="Natija: Yaxshi emas";
                 }
                 console.log(score, correct)
+
+
+                 var final_url = new URL('/final/result/?correct='+correct+'&inc='+((countQues+1)-correct), window.location.origin);
+
+                    fetch(final_url, {
+                        method: 'GET'
+                    })
+                    .then(response => response.text())
+                    .then(data => console.log(data))
+                    .catch((error) => console.error('Error:', error));
+
+
+
 
             //    window.location.href="#display-final-score";
 
@@ -212,30 +278,9 @@
             });
 
 
-
             /*Smooth Scroll End*/
 
         </script>
-        <script>
-            document.querySelector('.choose-lang').addEventListener('click', function(e) {
-                e.preventDefault();
-
-                let form = document.getElementById('vacancy_regis_form');
-                let formData = new FormData(form);
-
-                fetch('/vacancy/', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch((error) => console.error('Error:', error));
-            });
-
-
-
-        </script>
-
 
 
     </body>
