@@ -41,7 +41,7 @@ def test(request, pk=None, status=None):
     paginated = paginator.get_page(page_number)
 
     ctx = {
-        'roots': Test.objects.all().order_by('-id')
+        'roots': Test.objects.all().order_by('-id'),
         "roots": paginated,
         "pos": "list"
     }
