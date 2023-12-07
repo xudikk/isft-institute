@@ -75,23 +75,14 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                     <div class="header-title">
-                        <h4 class="card-title">{{ root.candidate.FIO }} ning ma'lumotlari</h4>
+                        <h6 class="card-title">{{ root.candidate.FIO }} ning test natijalari</h6>
                     </div>
-                        <div class="header-action">
-                        </div>
                     </div>
                     <div class="card-body">
                     <div id="table" class="table-editable">
-                        <span class="float-right mb-3 mr-2">
-                        <a class="btn btn-sm bg-primary" 
-                        href="{% url "condedant" %}">
-                            <i class="ri-add-fill"><span class="pl-1">Ortga qaytish</span></i>
-                        </a>
-                        </span>
                         <table class="table table-bordered table-responsive-md table-striped text-center">
                             <thead>
                                 <tr>
-                                    <th>Ism - Familya</th>
                                     <th>Testlar soni</th>
                                     <th>Tog'ri javoblar soni</th>
                                     <th>Xato javoblar soni</th>
@@ -99,9 +90,6 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
-                                        {{ root.candidate.FIO }}
-                                    </td>
                                     <td>
                                         {{ len }}
                                     </td>
@@ -117,7 +105,56 @@
                     </div>
                     </div>
                 </div>
+                
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                    <div class="header-title">
+                        <h6 class="card-title">{{ root.candidate.FIO }} ga tushgan testlar</h6>
+                    </div>
+                        <div class="header-action">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    <div id="table" class="table-editable">
+                        {% comment %} <span class="float-right mb-3 mr-2">
+                        <a class="btn btn-sm bg-primary" 
+                        href="{% url "condedant" %}">
+                            <i class="ri-add-fill"><span class="pl-1">Ortga qaytish</span></i>
+                        </a>
+                        </span> {% endcomment %}
+                        <table class="table table-bordered table-responsive-md table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <th>Test savoli</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for x in test %}
+                                <tr>
+                                    <td>
+                                        <span class="d-inline-block text-truncate" style="max-width: 150px;">
+                                            <a href="{% url 'view_test' pk=x.id %}">
+                                                {{ x.quest }}
+                                            </a>
+                                          </span>
+                                    </td>
+                                    <td>
+                                        {% if x.id in corrects %}
+                                            <mark>Tog'ri</mark>
+                                        {% else %}
+                                            <mark>Xato</mark>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
                </div>
+               
 {% endif %}
 
 {% endblock content %}
